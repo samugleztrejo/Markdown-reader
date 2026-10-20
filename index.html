@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https: http:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>RRSS Docs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" id="sidebar" aria-label="Explorador de documentos">
+      <div class="brand-row">
+        <div class="brand-mark" aria-hidden="true">R</div>
+        <div>
+          <strong>RRSS Docs</strong>
+          <span id="projectName">Sin proyecto</span>
+        </div>
+        <button class="icon-button mobile-only" id="closeSidebarButton" type="button" aria-label="Cerrar explorador" title="Cerrar explorador">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-tools">
+        <label class="search-field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <input id="fileFilter" type="search" placeholder="Filtrar documentos" autocomplete="off" aria-label="Filtrar documentos">
+          <kbd id="fileCount">0</kbd>
+        </label>
+      </div>
+
+      <nav class="file-tree" id="fileTree" aria-label="Archivos Markdown"></nav>
+
+      <div class="sidebar-footer">
+        <button class="secondary-button" id="changeFolderButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5h7l2 2h9v9.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 9.5v-3a2 2 0 0 1 2-2h4l2 3"/></svg>
+          Cambiar carpeta
+        </button>
+      </div>
+    </aside>
+
+    <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Cerrar explorador"></button>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <div class="document-identity">
+          <button class="icon-button" id="toggleSidebarButton" type="button" aria-label="Mostrar u ocultar explorador" title="Mostrar u ocultar explorador">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+          </button>
+          <div>
+            <strong id="documentTitle">RRSS Docs</strong>
+            <span id="documentPath">Lector Markdown local</span>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <label class="content-search" id="contentSearchWrap">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="contentSearch" type="search" placeholder="Buscar en el documento" autocomplete="off" aria-label="Buscar en el documento">
+            <span id="searchCount" aria-live="polite"></span>
+          </label>
+          <button class="icon-button" id="toggleThemeButton" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+            <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>
+          </button>
+          <button class="icon-button" id="toggleTocButton" type="button" aria-label="Mostrar u ocultar índice" title="Mostrar u ocultar índice" aria-pressed="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="reader-layout">
+        <section class="reader" id="reader">
+          <div class="welcome" id="welcome">
+            <div class="welcome-mark" aria-hidden="true">R</div>
+            <p class="eyebrow">LECTOR MARKDOWN LOCAL</p>
+            <h1>Todos tus documentos,<br>sin distracciones.</h1>
+            <p class="welcome-copy">Selecciona la carpeta <strong>proyect-rrss</strong>. Los archivos se leen únicamente en tu navegador y nunca se suben a Internet.</p>
+            <button class="primary-button" id="openFolderButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5h7l2 2h9v9.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 9.5v-3a2 2 0 0 1 2-2h4l2 3"/></svg>
+              <span id="openFolderLabel">Abrir proyecto</span>
+            </button>
+            <button class="fallback-button" id="fallbackButton" type="button">Usar selector compatible</button>
+            <p class="compatibility-note" id="compatibilityNote">Chrome o Edge recomendados. El proyecto se mantiene al recargar esta pestaña.</p>
+          </div>
+
+          <div class="empty-state" id="emptyState" hidden>
+            <h2>No hay documentos Markdown</h2>
+            <p>La carpeta seleccionada no contiene archivos <code>.md</code> legibles.</p>
+          </div>
+
+          <article class="markdown-body" id="markdownBody" hidden></article>
+        </section>
+
+        <aside class="toc" id="toc" aria-label="Índice del documento">
+          <strong>En esta página</strong>
+          <nav id="tocNav"></nav>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <input id="directoryInput" type="file" webkitdirectory multiple hidden>
+
+  <script src="vendor/marked.min.js"></script>
+  <script src="vendor/purify.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
